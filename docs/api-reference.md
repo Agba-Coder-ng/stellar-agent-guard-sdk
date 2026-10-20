@@ -7,7 +7,7 @@ The Stellar Agent Guard SDK exposes the following public surface. For the narrat
 ### Interception & Execution
 
 - `PreFlightInterceptor`
-  - `constructor(options: PreFlightInterceptorOptions)` — Pass `cache: { ttlMs }` or `cache: { ttlLedgers }` to opt into the short-lived cache; omit it for fresh simulations.
+  - `constructor(options: PreFlightInterceptorOptions)` — Pass `cache: { ttlMs }` or `cache: { ttlLedgers }` to opt into the short-lived cache; omit it for fresh simulations. Add `maxEntries` to bound the cache's cardinality with least-recently-used eviction.
   - `check(call: ContractCall): Promise<PreFlightDecision>` — Returns `admissible | blocked | undetermined` without throwing or broadcasting.
   - `assertAllowed(call: ContractCall): Promise<AdmissibleDecision>` — Asserts allowed or throws `GuardBlockedError`.
   - `invalidate(call?: ContractCall): void` — Clears all cached decisions or only entries for one call.
