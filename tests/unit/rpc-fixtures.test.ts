@@ -43,9 +43,7 @@ interface FixtureHeader {
 type LoadedFixture<T> = FixtureHeader & { response: T };
 
 function loadFixture<T>(name: string): LoadedFixture<T> {
-  return JSON.parse(
-    readFileSync(resolve(FIXTURE_DIR, name), "utf8"),
-  ) as LoadedFixture<T>;
+  return JSON.parse(readFileSync(resolve(FIXTURE_DIR, name), "utf8")) as LoadedFixture<T>;
 }
 
 const FIXTURE_NAMES = [
@@ -57,9 +55,7 @@ const FIXTURE_NAMES = [
 /** The guard the fixtures were recorded against, read from a fixture itself. */
 const GUARD =
   loadFixture<unknown>("get-events-guard-page.json").contractId ??
-  unsafeContractAddress(
-    "CAPADGEK457RHKN4RYVUMDJTFHDSG7R5HREQONKLYK7MFKC5WFENPP44",
-  );
+  unsafeContractAddress("CAPADGEK457RHKN4RYVUMDJTFHDSG7R5HREQONKLYK7MFKC5WFENPP44");
 
 /** A fake `rpc.Server` returning a fixture's already-parsed response unchanged. */
 function fixtureServer(response: unknown) {
@@ -177,9 +173,7 @@ type DoesNotDeclare<T, K extends PropertyKey> = K extends keyof T ? false : true
 type DeclaresAll<T, K extends PropertyKey> = K extends keyof T ? true : false;
 
 // getLatestLedger — only `sequence` is consumed.
-type _LatestLedgerSequence = Expect<
-  IsRequired<rpc.Api.GetLatestLedgerResponse, "sequence">
->;
+type _LatestLedgerSequence = Expect<IsRequired<rpc.Api.GetLatestLedgerResponse, "sequence">>;
 
 // getEvents — the retention window, cursor, and event list are consumed.
 type _EventsPageRetention = Expect<
@@ -199,9 +193,7 @@ type _ParsedEventsPageRetention = Expect<
 type _RawEventContractId = Expect<IsRequired<rpc.Api.RawEventResponse, "contractId">>;
 type _RawEventTopicOptional = Expect<IsOptional<rpc.Api.RawEventResponse, "topic">>;
 type _ParsedEventValue = Expect<IsRequired<rpc.Api.EventResponse, "topic" | "value">>;
-type _ParsedEventContractIdOptional = Expect<
-  IsOptional<rpc.Api.EventResponse, "contractId">
->;
+type _ParsedEventContractIdOptional = Expect<IsOptional<rpc.Api.EventResponse, "contractId">>;
 
 // simulateTransaction — success carries the footprint; failure carries `error`
 // and must never be read as if it had a footprint.
@@ -220,9 +212,7 @@ type _SimulationSuccessFootprint = Expect<
 type _SimulationSuccessHasNoError = Expect<
   DoesNotDeclare<rpc.Api.SimulateTransactionSuccessResponse, "error">
 >;
-type _SimulationErrorReason = Expect<
-  IsRequired<rpc.Api.SimulateTransactionErrorResponse, "error">
->;
+type _SimulationErrorReason = Expect<IsRequired<rpc.Api.SimulateTransactionErrorResponse, "error">>;
 type _SimulationErrorHasNoFootprint = Expect<
   DoesNotDeclare<rpc.Api.SimulateTransactionErrorResponse, "transactionData">
 >;
@@ -311,13 +301,7 @@ const FIXTURE_SHAPES = {
       events: "array",
       latestLedger: "number",
     },
-    absent: [
-      "transactionData",
-      "minResourceFee",
-      "results",
-      "stateChanges",
-      "restorePreamble",
-    ],
+    absent: ["transactionData", "minResourceFee", "results", "stateChanges", "restorePreamble"],
   },
 } as const satisfies Readonly<Record<(typeof FIXTURE_NAMES)[number], FixtureShape>>;
 

@@ -1065,15 +1065,15 @@ describe("PreFlightInterceptor simulation cache", () => {
     const second = callWithAmount(2n);
     const third = callWithAmount(3n);
 
-    await interceptor.check(first);   // cache: [first]
-    await interceptor.check(second);  // cache: [first, second]
-    await interceptor.check(first);   // hit, recency: [second, first]
-    await interceptor.check(third);   // miss, evicts second: [first, third]
+    await interceptor.check(first); // cache: [first]
+    await interceptor.check(second); // cache: [first, second]
+    await interceptor.check(first); // hit, recency: [second, first]
+    await interceptor.check(third); // miss, evicts second: [first, third]
     assert.equal(harness.simulations, 6);
 
-    await interceptor.check(first);   // still cached
+    await interceptor.check(first); // still cached
     assert.equal(harness.simulations, 6);
-    await interceptor.check(second);  // was evicted, so it is re-simulated
+    await interceptor.check(second); // was evicted, so it is re-simulated
     assert.equal(harness.simulations, 8);
   });
 
@@ -1121,8 +1121,8 @@ describe("PreFlightInterceptor simulation cache", () => {
     await interceptor.check(first);
     await interceptor.check(second);
     interceptor.invalidate(first);
-    await interceptor.check(first);   // re-simulated
-    await interceptor.check(second);  // still cached
+    await interceptor.check(first); // re-simulated
+    await interceptor.check(second); // still cached
 
     assert.equal(harness.simulations, 6);
   });
