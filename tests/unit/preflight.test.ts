@@ -22,6 +22,7 @@ import { GuardBlockedError } from "../../src/reasons.ts";
 import type { PolicyConfig } from "../../src/policy.ts";
 import type { ContractCall } from "../../src/tx.ts";
 import { unsafeContractAddress, unsafeAccountAddress } from "../../src/policy.ts";
+import { type Clock, FakeClock } from "../../src/clock.ts";
 import { mulberry32, randomUint } from "./seeded-random.ts";
 
 const VALID_GUARD = unsafeContractAddress("CAPADGEK457RHKN4RYVUMDJTFHDSG7R5HREQONKLYK7MFKC5WFENPP44");
