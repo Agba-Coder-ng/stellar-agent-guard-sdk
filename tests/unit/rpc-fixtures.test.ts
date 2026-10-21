@@ -43,7 +43,9 @@ interface FixtureHeader {
 type LoadedFixture<T> = FixtureHeader & { response: T };
 
 function loadFixture<T>(name: string): LoadedFixture<T> {
-  return JSON.parse(readFileSync(resolve(FIXTURE_DIR, name), "utf8")) as LoadedFixture<T>;
+  return JSON.parse(
+    readFileSync(resolve(FIXTURE_DIR, name), "utf8"),
+  ) as LoadedFixture<T>;
 }
 
 const FIXTURE_NAMES = [
@@ -55,7 +57,9 @@ const FIXTURE_NAMES = [
 /** The guard the fixtures were recorded against, read from a fixture itself. */
 const GUARD =
   loadFixture<unknown>("get-events-guard-page.json").contractId ??
-  unsafeContractAddress("CAPADGEK457RHKN4RYVUMDJTFHDSG7R5HREQONKLYK7MFKC5WFENPP44");
+  unsafeContractAddress(
+    "CAPADGEK457RHKN4RYVUMDJTFHDSG7R5HREQONKLYK7MFKC5WFENPP44",
+  );
 
 /** A fake `rpc.Server` returning a fixture's already-parsed response unchanged. */
 function fixtureServer(response: unknown) {
@@ -111,7 +115,9 @@ describe("recorded getEvents page", () => {
     assert.equal(page.oldestLedger, parsed.oldestLedger);
     assert.equal(page.latestLedger, parsed.latestLedger);
     assert.equal(page.events.length, parsed.events.length);
-    for (const event of page.events) assert.ok(event.id.length > 0, "decoded events carry ids");
+    for (const event of page.events) {
+      assert.ok(event.id.length > 0, "decoded events carry ids");
+    }
   });
 
   it("drives gap detection from the recorded retention window", async () => {
@@ -305,7 +311,13 @@ const FIXTURE_SHAPES = {
       events: "array",
       latestLedger: "number",
     },
-    absent: ["transactionData", "minResourceFee", "results", "stateChanges", "restorePreamble"],
+    absent: [
+      "transactionData",
+      "minResourceFee",
+      "results",
+      "stateChanges",
+      "restorePreamble",
+    ],
   },
 } as const satisfies Readonly<Record<(typeof FIXTURE_NAMES)[number], FixtureShape>>;
 
